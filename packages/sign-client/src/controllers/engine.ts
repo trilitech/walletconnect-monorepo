@@ -1230,7 +1230,7 @@ export class Engine extends IEngine {
       this.client.logger.error(`sendResult() -> history.get(${topic}, ${id}) failed`);
       throw error;
     }
-    const opts = ENGINE_RPC_OPTS[record.request.method].res;
+    const opts = ENGINE_RPC_OPTS[record.request.method as keyof typeof ENGINE_RPC_OPTS].res;
     if (throwOnFailedPublish) {
       opts.internal = {
         ...opts.internal,
@@ -1263,7 +1263,7 @@ export class Engine extends IEngine {
       this.client.logger.error(`sendError() -> history.get(${topic}, ${id}) failed`);
       throw error;
     }
-    const opts = rpcOpts || ENGINE_RPC_OPTS[record.request.method].res;
+    const opts = rpcOpts || ENGINE_RPC_OPTS[record.request.method as keyof typeof ENGINE_RPC_OPTS].res;
     // await is intentionally omitted to speed up performance
     this.client.core.relayer.publish(topic, message, opts);
     await this.client.core.history.resolve(payload);

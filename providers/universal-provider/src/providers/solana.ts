@@ -83,7 +83,7 @@ class SolanaProvider implements IProvider {
   }
 
   private createHttpProviders(): RpcProvidersMap {
-    const http = {};
+    const http: { [key: string]: any } = {};
     this.namespace.chains.forEach((chain) => {
       const parsedChainId = getChainId(chain);
       http[parsedChainId] = this.createHttpProvider(parsedChainId, this.namespace.rpcMap?.[chain]);

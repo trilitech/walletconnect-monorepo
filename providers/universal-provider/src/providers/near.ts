@@ -87,7 +87,7 @@ class NearProvider implements IProvider {
   }
 
   private createHttpProviders(): RpcProvidersMap {
-    const http = {};
+    const http: { [key: string]: any } = {};
     this.namespace.chains.forEach((chain) => {
       http[chain] = this.createHttpProvider(chain, this.namespace.rpcMap?.[chain]);
     });

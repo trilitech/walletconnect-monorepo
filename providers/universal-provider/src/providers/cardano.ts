@@ -83,7 +83,7 @@ class CardanoProvider implements IProvider {
   }
 
   private createHttpProviders(): RpcProvidersMap {
-    const http = {};
+    const http: { [key: string]: any } = {};
     this.namespace.chains.forEach((chain) => {
       const rpcURL = this.getCardanoRPCUrl(chain);
       const parsedChain = getChainId(chain);
