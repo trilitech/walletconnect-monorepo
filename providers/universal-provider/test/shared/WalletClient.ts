@@ -268,6 +268,14 @@ export class WalletClient {
               );
               result = signedDirect.signature;
               break;
+            case "tezos_send":
+              //  eslint-disable-next-line no-case-declarations
+              const send_res = await this.tezosWallet.send(
+                request.params.signerAddress,
+                parseSignDocValues(request.params.signDoc),
+              );
+              result = signedDirect.signature;
+              break;
             case "wallet_switchEthereumChain":
               const session = this.client.session.get(topic);
               const chainToUpdate = `eip155:${parseInt(request.params[0].chainId)}`;
