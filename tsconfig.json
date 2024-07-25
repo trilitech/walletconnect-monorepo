@@ -32,7 +32,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "suppressImplicitAnyIndexErrors": true
+    "ignoreDeprecations": "5.0"
   },
   "include": ["**/package.json", "packages", "providers"]
 }

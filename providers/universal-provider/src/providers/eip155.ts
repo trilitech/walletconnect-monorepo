@@ -104,7 +104,7 @@ class Eip155Provider implements IProvider {
   }
 
   private createHttpProviders(): RpcProvidersMap {
-    const http = {};
+    const http: { [key: string]: any } = {};
     this.namespace.chains.forEach((chain) => {
       const parsedChain = parseInt(getChainId(chain));
       http[parsedChain] = this.createHttpProvider(parsedChain, this.namespace.rpcMap?.[chain]);
@@ -138,7 +138,12 @@ class Eip155Provider implements IProvider {
   }
 
   private async handleSwitchChain(args: RequestParams): Promise<any> {
-    let hexChainId = args.request.params ? args.request.params[0]?.chainId : "0x0";
+    let hexChainId = "0x0";
+    const params = args.request.params;
+    if (params && Array.isArray(params) && params.length > 0) {
+      hexChainId = params[0]?.chainId;
+    }
+
     hexChainId = hexChainId.startsWith("0x") ? hexChainId : `0x${hexChainId}`;
     const parsedChainId = parseInt(hexChainId, 16);
     // if chainId is already approved, switch locally
@@ -173,10 +178,12 @@ class Eip155Provider implements IProvider {
 
   private async getCapabilities(args: RequestParams) {
     // if capabilities are stored in the session, return them, else send the request to the wallet
-    const address = args.request?.params?.[0];
+    const params = args.request?.params;
+    const address = Array.isArray(params) ? params[0] as string : undefined;
     if (!address) throw new Error("Missing address parameter in `wallet_getCapabilities` request");
     const session = this.client.session.get(args.topic);
-    const sessionCapabilities = session?.sessionProperties?.capabilities || {};
+    const sessionCapabilities: Record<string, any> = (session?.sessionProperties?.capabilities || {}) as Record<string, any>;
+
     if (sessionCapabilities?.[address]) {
       return sessionCapabilities?.[address];
     }

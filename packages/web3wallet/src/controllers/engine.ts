@@ -1,6 +1,6 @@
 import { AuthClient, AuthEngineTypes, IAuthClient } from "@walletconnect/auth-client";
 import { SignClient } from "@walletconnect/sign-client";
-import { ISignClient } from "@walletconnect/types";
+import { ISignClient, SessionTypes } from "@walletconnect/types";
 import { IWeb3WalletEngine, Web3WalletTypes } from "../types";
 
 export class Engine extends IWeb3WalletEngine {
@@ -74,7 +74,7 @@ export class Engine extends IWeb3WalletEngine {
     return sessions.reduce((sessions, session) => {
       sessions[session.topic] = session;
       return sessions;
-    }, {});
+    }, {} as Record<string, SessionTypes.Struct>);
   };
 
   public getPendingSessionProposals: IWeb3WalletEngine["getPendingSessionProposals"] = () => {

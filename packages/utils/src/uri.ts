@@ -1,6 +1,7 @@
 import * as qs from "query-string";
 import { EngineTypes, RelayerTypes } from "@walletconnect/types";
 
+
 // -- uri -------------------------------------------------- //
 
 export function parseRelayParams(params: any, delimiter = "-"): RelayerTypes.ProtocolOptions {
@@ -50,11 +51,11 @@ export function parseTopic(topic: string): string {
 
 export function formatRelayParams(relay: RelayerTypes.ProtocolOptions, delimiter = "-") {
   const prefix = "relay";
-  const params: any = {};
+  const params: Record<string, unknown> = {};
   Object.keys(relay).forEach((key) => {
     const k = prefix + delimiter + key;
-    if (relay[key]) {
-      params[k] = relay[key];
+    if (relay[key as keyof RelayerTypes.ProtocolOptions]) {
+      params[k] = relay[key as keyof RelayerTypes.ProtocolOptions];
     }
   });
   return params;

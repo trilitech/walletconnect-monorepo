@@ -204,7 +204,7 @@ export class Pairing implements IPairing {
     const payload = formatJsonRpcResult(id, result);
     const message = await this.core.crypto.encode(topic, payload);
     const record = await this.core.history.get(topic, id);
-    const opts = PAIRING_RPC_OPTS[record.request.method].res;
+    const opts = PAIRING_RPC_OPTS[record.request.method as keyof typeof PAIRING_RPC_OPTS].res;
     await this.core.relayer.publish(topic, message, opts);
     await this.core.history.resolve(payload);
   };
@@ -213,8 +213,8 @@ export class Pairing implements IPairing {
     const payload = formatJsonRpcError(id, error);
     const message = await this.core.crypto.encode(topic, payload);
     const record = await this.core.history.get(topic, id);
-    const opts = PAIRING_RPC_OPTS[record.request.method]
-      ? PAIRING_RPC_OPTS[record.request.method].res
+    const opts = PAIRING_RPC_OPTS[record.request.method as keyof typeof PAIRING_RPC_OPTS]
+      ? PAIRING_RPC_OPTS[record.request.method as keyof typeof PAIRING_RPC_OPTS].res
       : PAIRING_RPC_OPTS.unregistered_method.res;
 
     await this.core.relayer.publish(topic, message, opts);

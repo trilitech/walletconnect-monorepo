@@ -262,6 +262,7 @@ export class Subscriber extends ISubscriber {
       return await subscribe;
     } catch (err) {
       this.relayer.events.emit(RELAYER_EVENTS.connection_stalled);
+      throw err;
     }
   }
 

@@ -1,4 +1,4 @@
-const globals = {};
+const globals: { [key: string]: any } = {};
 export const getGlobal = (key: string) => {
   return globals[key];
 };
